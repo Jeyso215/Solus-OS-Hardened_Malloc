@@ -1,5 +1,127 @@
-# Hardened malloc
+# Hardened Malloc for Solus OS
+A security-focused memory allocator designed to mitigate heap-based vulnerabilities and enhance memory safety for Solus OS.
 
+### Features
+
+- **Memory Safety:** Enhanced protection against buffer overflows, use-after-free, and heap corruption vulnerabilities.
+- **Low Overhead:** Optimized for performance while maintaining strong security guarantees.
+- **Compatibility:** Designed to work seamlessly with glibc on Solus OS.
+- **System-Wide Integration:** Can be configured to replace the default allocator for system-wide hardening.
+
+---
+
+## Installation
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/solus-hardened-malloc.git
+cd solus-hardened-malloc
+```
+
+### 2. Install Dependencies
+```bash
+sudo eopkg install -c system.devel
+sudo eopkg install gcc make git
+```
+
+### 3. Build and Install
+```bash
+make
+sudo make install
+```
+
+### 4. Create Solus Package (Optional)
+To create a Solus package for easier management:
+```bash
+sudo eopkg create --template hardened_malloc
+```
+
+### 5. **Verify Installation**
+Verify that **hardened_malloc** is in use by running:
+```bash
+ldd /usr/lib/libc.so.6 | grep hardened_malloc
+```
+
+
+---
+
+### **Use Hardened Malloc**
+After installation, you can use **hardened_malloc** in two ways:
+
+#### Option 1: Preload for Specific Applications
+For testing, you can preload **hardened_malloc** for specific applications:
+```bash
+LD_PRELOAD=/usr/lib/libhardened_malloc.so your_application
+```
+
+#### Option 2: System-Wide Integration (Advanced)
+To integrate **hardened_malloc** system-wide, you can replace the default ```libc``` allocator. This requires caution:
+1. Backup the original allocator:
+   ```bash
+   sudo mv /usr/lib/libc.so.6 /usr/lib/libc.so.6.backup
+   ```
+2. Create a symbolic link to **hardened_malloc**:
+   ```bash
+   sudo ln -s /usr/lib/libhardened_malloc.so /usr/lib/libc.so.6
+   ```
+
+**Note:** System-wide integration may cause compatibility issues with certain applications. Proceed with caution.
+
+---
+
+## Compatibility
+
+This implementation is tested on:
+- Solus OS 4.7 Endurance
+- glibc-based systems
+  
+
+### Known Issues
+
+- Some applications may not work correctly with **hardened_malloc** due to its strict memory safety checks.
+- VirtualBox and other virtualization tools may crash when using a hardened allocator.
+
+---
+
+## Contributing
+
+Contributions are welcome! Fork the repository, create a feature branch, and submit a pull request.
+
+1. Fork the repository:
+   ```bash
+   git fork https://github.com/jeyso215/solus-hardened-malloc.git jeyso215/solus-hardened-malloc
+   ```
+2. Create a branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. Commit changes:
+   ```bash
+   git commit -m "Add your feature"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+Please adhere to the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+
+---
+
+## License
+
+This project is licensed under the [permissive license](https://github.com/GrapheneOS/hardened_malloc/blob/main/LICENSE) used by the upstream GrapheneOS implementation. For more details, contact the maintainers.
+
+---
+
+## Acknowledgments
+
+- Based on [GrapheneOS hardened_malloc](https://github.com/GrapheneOS/hardened_malloc).
+- Adapted for Solus OS compatibility.
+
+---
+
+## For the Developers
 * [Introduction](#introduction)
 * [Dependencies](#dependencies)
 * [Testing](#testing)
