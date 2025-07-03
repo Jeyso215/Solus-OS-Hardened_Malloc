@@ -14,8 +14,8 @@ A security-focused memory allocator designed to mitigate heap-based vulnerabilit
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/solus-hardened-malloc.git
-cd solus-hardened-malloc
+git clone https://github.com/jeyso215/Solus-OS-Hardened_Malloc.git
+cd Solus-OS-Hardened_Malloc
 ```
 
 ### 2. Install Dependencies
